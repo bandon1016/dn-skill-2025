@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗黑騎士技能建議選擇</title>
+    <!-- 引入 Tailwind CSS 進行樣式設計 (需連網) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入字體圖示 (需連網) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #ffffff; /* 白色背景 */
+            color: #1e293b; /* 深藍灰色文字 */
+        }
+
+        /* 滾動條樣式 */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* 表格列 Hover 效果 */
+        .table-row-hover:hover {
+            background-color: #f8fafc; 
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-lg">
+
+    <!-- Header Section -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-shield-halved text-4xl text-red-600"></i>
+                <div>
+                    <h1 class="text-3xl font-bold tracking-wide text-gray-900">暗黑騎士技能建議選擇 <span class="text-gray-500 text-xl font-normal">2025 暗黑騎士改版</span></h1>
+                    <p class="text-sm text-gray-500 mt-1 font-medium">製作編輯：編董不雷 BandonPlay</p>
+                </div>
+            </div>
+            
+            <!-- 搜尋框 -->
+            <div class="relative w-full md:w-1/3">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fa-solid fa-search text-gray-400 text-lg"></i>
+                </div>
+                <input type="text" id="searchInput" placeholder="搜尋技能、效果..." 
+                    class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-gray-50 text-gray-900 placeholder-gray-500 focus:outline-none focus:bg-white focus:border-red-500 focus:ring-1 focus:ring-red-500 text-base transition duration-150 ease-in-out shadow-sm">
+            </div>
+        </div>
+        
+        <!-- Filter Tabs -->
+        <div class="container mx-auto px-4 py-3 flex gap-3 overflow-x-auto no-scrollbar pb-4 border-t border-gray-100 md:border-t-0">
+            <button onclick="filterSkills('all')" class="filter-btn active px-5 py-2 rounded-full text-base font-medium bg-red-600 text-white hover:bg-red-700 transition whitespace-nowrap shadow-sm">全部</button>
+            <button onclick="filterSkills('神話')" class="filter-btn px-5 py-2 rounded-full text-base font-medium bg-gray-100 text-gray-600 hover:bg-yellow-100 hover:text-yellow-800 transition whitespace-nowrap border border-gray-200">神話</button>
+            <button onclick="filterSkills('傳說')" class="filter-btn px-5 py-2 rounded-full text-base font-medium bg-gray-100 text-gray-600 hover:bg-purple-100 hover:text-purple-800 transition whitespace-nowrap border border-gray-200">傳說</button>
+            <button onclick="filterSkills('英雄')" class="filter-btn px-5 py-2 rounded-full text-base font-medium bg-gray-100 text-gray-600 hover:bg-red-100 hover:text-red-800 transition whitespace-nowrap border border-gray-200">英雄</button>
+            <button onclick="filterSkills('一般')" class="filter-btn px-5 py-2 rounded-full text-base font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition whitespace-nowrap border border-gray-200">一般</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-lg"> 
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase tracking-wider w-20">ID</th>
+                            <th scope="col" class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase tracking-wider w-24">階級</th>
+                            <th scope="col" class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase tracking-wider w-56">技能名稱</th>
+                            <th scope="col" class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase tracking-wider min-w-[350px]">效果</th>
+                            <th scope="col" class="px-6 py-2 text-left text-sm font-bold text-gray-600 uppercase tracking-wider w-40">名譽幣/取得</th>
+                            <th scope="col" class="px-6 py-2 text-center text-sm font-bold text-gray-600 uppercase tracking-wider w-28">PVP</th>
+                            <th scope="col" class="px-6 py-2 text-center text-sm font-bold text-gray-600 uppercase tracking-wider w-28">PVE</th>
+                        </tr>
+                    </thead>
+                    <tbody id="skillsTableBody" class="bg-white divide-y divide-gray-200 text-base">
+                        <!-- Javascript Rendered Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="noResults" class="hidden text-center py-20">
+            <i class="fa-regular fa-folder-open text-7xl text-gray-300 mb-6"></i>
+            <p class="text-2xl text-gray-500">找不到符合的技能資料</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center text-gray-500 text-sm py-8 border-t border-gray-200 mt-8">
+        <p>資料來源：遊戲更新公告 | 實際效果以遊戲內為主</p>
+    </footer>
+
+    <script>
+        // 技能資料庫
+        const skillsData = [
+            // 一般技能
+            { id: 1, rank: '一般', name: '暗黑騎士', effect: '原：物理攻擊轉為魔法攻擊。攻擊機制調整 (值得留意是否與MR相關)', transfer: '', coin: '', pvp: '', pve: '' },
+            { id: 2, rank: '一般', name: '暗黑之劍', effect: '新增搶怪權，搶怪期間擊殺怪物會重置技能CD', transfer: '', coin: '', pvp: '', pve: '' },
+            { id: 3, rank: '一般', name: '暗黑之魂', effect: '無施法動作，攻擊時隨機累積鬼魂', transfer: '', coin: '', pvp: '', pve: '' },
+            { id: 4, rank: '一般', name: '暗黑衝擊', effect: '', transfer: '', coin: '', pvp: 'V', pve: 'V' },
+            { id: 5, rank: '一般', name: '暗黑防護', effect: '', transfer: '', coin: '', pvp: 'V', pve: 'V' },
+            { id: 6, rank: '一般', name: '暗黑復仇', effect: '', transfer: '', coin: '', pvp: '', pve: '' },
+            { id: 7, rank: '一般', name: '暗黑守護', effect: '', transfer: '', coin: '', pvp: 'V', pve: 'V' },
+            { id: 8, rank: '一般', name: '暗黑之暈', effect: '技能傷害增加', transfer: '', coin: '8W', pvp: '', pve: '' },
+            { id: 9, rank: '一般', name: '暗黑致命', effect: '', transfer: '', coin: '16W', pvp: 'V', pve: 'V' },
+            { id: 10, rank: '一般', name: '暗黑衝刺', effect: '二段加速，移動/施法/攻擊+25%', transfer: '', coin: '4W', pvp: '', pve: '' },
+            { id: 11, rank: '一般', name: '暗黑之鏡', effect: '', transfer: '', coin: '16W', pvp: '', pve: '' },
+
+            // 英雄技能
+            { id: 1, rank: '英雄', name: '黑手 [L]', effect: '恐懼目標並增傷25%', transfer: '', coin: '', pvp: '3', pve: '(2)' },
+            { id: 2, rank: '英雄', name: '黑暗之劍(復仇者) [L]', effect: '原：2格攻擊 (技能平衡調整)', transfer: '', coin: '', pvp: '4', pve: '3' },
+            { id: 3, rank: '英雄', name: '無效區域', effect: '原：透過施放"虛空屏障"保護3格內盟友免遭傷害<br>距離屏障中心越近，防護效果越強', transfer: '', coin: '180W(限時)', pvp: '買', pve: '6' },
+            { id: 4, rank: '英雄', name: '暗黑之眼', effect: '辨識HP低的敵人，發現目標時近爆大幅提升', transfer: '', coin: '', pvp: '6', pve: '' },
+            { id: 5, rank: '英雄', name: '復仇屏障', effect: '機率迴避攻擊並賦予黑暗傷害，改版後約 CD10 秒發動一次復仇之劍<br>提高藥水恢復', transfer: '', coin: '70W(常駐)', pvp: '買', pve: '買' },
+            { id: 6, rank: '英雄', name: '暗黑不死 [L]', effect: '攻擊隨機觸發，賦予不死屬性，不死材質武器額外傷害效果(無視魔屏)<br>改版後：不死系傷害額外+9', transfer: '', coin: '180W(限時)', pvp: '2', pve: '5' },
+            { id: 7, rank: '英雄', name: '暗黑之魂(復仇者) [L]', effect: '無施法動作，攻擊1格內所有怪物，造成3次傷害，範圍8格/8隻怪', transfer: '', coin: '180W(限時)', pvp: '1', pve: '1' },
+            { id: 8, rank: '英雄', name: '幽冥防護', effect: '被動減傷改版後+5%，隨盾/臂甲階級提升傷害減少&遠距減少<br>(藍+2%減少/4%遠距減少，紅+3%減傷/6%遠距減少，依此類推)', transfer: '', coin: '180W(限時)', pvp: '5', pve: '4' },
+            { id: 9, rank: '英雄', name: '暗黑衝擊波', effect: '攻擊時隨機發動扇形衝擊波，回血約200', transfer: '', coin: '100W(常駐)', pvp: '買', pve: '2/(買)' },
+
+            // 傳說技能
+            { id: 1, rank: '傳說', name: '幻覺 [L]', effect: '召喚分身替代本尊承受攻擊，立刻恢復HP，可解暈/恐/綁', transfer: '', coin: '300W(I)(限時)', pvp: '2', pve: '5' },
+            { id: 2, rank: '傳說', name: '黑暗騎士(復仇者)', effect: '原：攻速+10%、無視減少+10%，改動細節待測', transfer: '', coin: '200W(常駐)', pvp: '買', pve: '1' },
+            { id: 3, rank: '傳說', name: '黑暗之鏡(復仇者)', effect: '機率消除微控制狀態，機率隨副手等級影響機率', transfer: '', coin: '300W(II)(限時)', pvp: '4', pve: '' },
+            { id: 4, rank: '傳說', name: '變形怪王', effect: '改為每秒消耗4材料水晶，開啟時提高攻速/移速，強化暗黑衝擊波、暗黑不死<br>讓目標BUFF持續時間大幅降低。', transfer: '獨', coin: '', pvp: '', pve: '' },
+            { id: 5, rank: '傳說', name: '黑暗次元 [L]', effect: '被動無視敵人減傷、PVP減傷(受自身等級影響)<br>衝刺提升到8格，指定目標時攻擊/施法速度降低並帶脫標效果<br>不使用 combo 時CD時間減少', transfer: '', coin: '', pvp: '3', pve: '2' },
+            { id: 6, rank: '傳說', name: '暗黑之暈(復仇者) [L]', effect: '暈眩命中依照副手階級提升', transfer: '', coin: '', pvp: '1', pve: '' },
+            { id: 7, rank: '傳說', name: '復仇屏障(復仇者)', effect: '調整復仇之劍觸發機制', transfer: '', coin: '300W(II)(限時)', pvp: '5', pve: '3' },
+            { id: 8, rank: '傳說', name: '無效區域(復仇者)', effect: '使用時迴避發射體攻擊，無視屬性傷害<br>就算在屏障外也PVE傷害減少(+5%)、機率使受到攻擊無效', transfer: '', coin: '300W(I)(限時)', pvp: '買', pve: '4' },
+            { id: 9, rank: '傳說', name: '次元刀', effect: '攻擊隨機發動"裂痕"侵蝕效果(共3階段)，造成週期性傷害(與近傷成正比)<br>滿階時無法施放被動技能與武器技能，目標死亡後裂痕會自動轉移到下一個目標<br>3格攻擊距離', transfer: '獨', coin: '800W', pvp: '', pve: '' },
+
+            // 神話技能
+            { id: 1, rank: '神話', name: '復仇屏障(暗黑領主)', effect: '調整復仇之劍觸發機制', transfer: '', coin: '', pvp: '', pve: '' },
+            { id: 2, rank: '神話', name: '卡呂普索', effect: '發動後在重力場內無法使用3段加速、無法使用技能<br>使用瞬移/回卷會在重力場範圍內', transfer: '', coin: '', pvp: '', pve: '' }
+        ];
+
+        const tableBody = document.getElementById('skillsTableBody');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+
+        // 取得階級文字顏色 - 在白底上加深顏色
+        function getRankColorClass(rank) {
+            switch(rank) {
+                case '神話': return 'text-amber-600 font-bold'; // 琥珀金
+                case '傳說': return 'text-purple-700 font-bold'; // 深紫
+                case '英雄': return 'text-red-700 font-bold';    // 深紅
+                case '一般': return 'text-gray-900 font-bold';   // 深黑
+                default: return 'text-gray-800';
+            }
+        }
+
+        // 取得階級標籤背景 - 改為淡色背景+深色邊框文字
+        function getRankBadgeStyle(rank) {
+            switch(rank) {
+                case '神話': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+                case '傳說': return 'bg-purple-100 text-purple-800 border-purple-200';
+                case '英雄': return 'bg-red-100 text-red-800 border-red-200';
+                case '一般': return 'bg-gray-100 text-gray-800 border-gray-200';
+                default: return 'bg-gray-100 text-gray-600';
+            }
+        }
+
+        // 生成數值標籤
+        function renderValueBadge(value, type) {
+            if (!value) return '<span class="text-gray-400">-</span>';
+            
+            let colorClass = '';
+            if (value === 'V' || value === '買') {
+                colorClass = 'bg-green-100 text-green-800 border-green-200 font-medium';
+            } else if (!isNaN(value)) {
+                // 數字評分
+                const score = parseInt(value);
+                if (score >= 5) colorClass = 'bg-red-100 text-red-800 border-red-200 font-bold';
+                else if (score >= 3) colorClass = 'bg-orange-100 text-orange-800 border-orange-200';
+                else colorClass = 'bg-gray-100 text-gray-700 border-gray-200';
+            } else {
+                // 其他文字 (如 (2))
+                colorClass = 'bg-blue-100 text-blue-800 border-blue-200';
+            }
+
+            return `<span class="inline-block px-3 py-1 rounded text-sm border ${colorClass}">${value}</span>`;
+        }
+        
+        // 生成特殊標籤 (轉移/限制)
+        function renderTags(skill) {
+            let html = '';
+            if (skill.transfer === '獨') {
+                html += `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-pink-100 text-pink-800 border border-pink-200 mr-2" title="獨有技能">獨</span>`;
+            }
+            if (skill.coin && skill.coin.includes('限時')) {
+                 html += `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800 border border-amber-200 mr-2">限時</span>`;
+            }
+            return html;
+        }
+
+        function renderSkills(filterType = 'all', searchTerm = '') {
+            tableBody.innerHTML = '';
+            
+            const filteredSkills = skillsData.filter(skill => {
+                const matchesType = filterType === 'all' || skill.rank === filterType;
+                const matchesSearch = skill.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                                      skill.effect.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchesType && matchesSearch;
+            });
+
+            if (filteredSkills.length === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            filteredSkills.forEach(skill => {
+                const nameColorClass = getRankColorClass(skill.rank);
+                const rankBadgeClass = getRankBadgeStyle(skill.rank);
+                
+                // 處理名譽幣顯示
+                let displayCoin = skill.coin.replace(/\(限時\)/g, '').replace(/\(常駐\)/g, '').replace(/\(I\)/g, '<span class="text-xs align-top font-bold text-gray-500">I</span>').replace(/\(II\)/g, '<span class="text-xs align-top font-bold text-gray-500">II</span>');
+                if(!displayCoin) displayCoin = '';
+
+                const row = document.createElement('tr');
+                row.className = 'table-row-hover transition-colors';
+                
+                row.innerHTML = `
+                    <td class="px-6 py-2 whitespace-nowrap text-gray-500 font-mono text-base">
+                        #${skill.id}
+                    </td>
+                    <td class="px-6 py-2 whitespace-nowrap">
+                        <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full border ${rankBadgeClass}">
+                            ${skill.rank}
+                        </span>
+                    </td>
+                    <td class="px-6 py-2">
+                        <div class="flex flex-col">
+                            <span class="${nameColorClass} text-xl md:text-xl">${skill.name}</span>
+                            <div class="mt-2 md:hidden flex gap-1">
+                                ${renderTags(skill)}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-2 text-gray-700 text-lg leading-relaxed min-w-[200px]">
+                        ${skill.effect || '<span class="text-gray-400 italic">無特殊描述</span>'}
+                    </td>
+                    <td class="px-6 py-2 whitespace-nowrap text-base text-gray-600">
+                        <div class="flex items-center">
+                            <div class="hidden md:block mr-1">${renderTags(skill)}</div>
+                            <span>${displayCoin || '-'}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-2 whitespace-nowrap text-center">
+                        ${renderValueBadge(skill.pvp, 'pvp')}
+                    </td>
+                    <td class="px-6 py-2 whitespace-nowrap text-center">
+                        ${renderValueBadge(skill.pve, 'pve')}
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // 篩選功能
+        function filterSkills(type) {
+            // 更新按鈕樣式 - 白底模式
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                // 重置所有按鈕為淺灰底
+                btn.classList.remove('bg-red-600', 'text-white', 'active', 'shadow-sm');
+                btn.classList.add('bg-gray-100', 'text-gray-600', 'border', 'border-gray-200');
+            });
+            // 啟用當前按鈕為紅底
+            event.target.classList.remove('bg-gray-100', 'text-gray-600', 'border', 'border-gray-200');
+            event.target.classList.add('bg-red-600', 'text-white', 'active', 'shadow-sm');
+
+            const searchTerm = searchInput.value;
+            renderSkills(type, searchTerm);
+            
+            // 儲存狀態
+            tableBody.dataset.currentFilter = type;
+        }
+
+        // 搜尋功能
+        searchInput.addEventListener('input', (e) => {
+            const currentFilter = tableBody.dataset.currentFilter || 'all';
+            renderSkills(currentFilter, e.target.value);
+        });
+
+        // 初始渲染
+        renderSkills();
+
+    </script>
+</body>
+</html>
